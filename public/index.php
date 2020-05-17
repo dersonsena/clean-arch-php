@@ -2,7 +2,7 @@
 
 require_once '../vendor/autoload.php';
 
-use App\Data\FileAddAccount;
+use App\Data\Account\FileAddAccount;
 use App\Infra\Adapters\BcryptAdapter;
 use App\Infra\Adapters\EmailValidatorAdapter;
 use App\Infra\Repository\AddAccountTextFile;

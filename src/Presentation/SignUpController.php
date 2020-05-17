@@ -2,8 +2,9 @@
 
 namespace App\Presentation;
 
-use App\Domain\AddAccount;
 use ErrorException;
+use App\Domain\Entities\Account\Account;
+use App\Domain\UseCases\Account\AddAccount;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 
@@ -38,7 +39,13 @@ class SignUpController implements Controller
             throw new ErrorException('Email invalid.');
         }
 
-        $this->addAccount->create($name, $email, $age, $password);
+        $account = Account::create()
+            ->setName($name)
+            ->setEmail($email)
+            ->setAge($age)
+            ->setPassword($password);
+
+        $this->addAccount->create($account);
 
         return 'ok';
     }

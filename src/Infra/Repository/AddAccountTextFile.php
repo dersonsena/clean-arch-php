@@ -2,14 +2,15 @@
 
 namespace App\Infra\Repository;
 
-use App\Data\AddUserRepository;
+use App\Data\Account\AddUserRepository;
+use App\Domain\Entities\Account\Account;
 use ErrorException;
 
 class AddAccountTextFile implements AddUserRepository
 {
-    public function persist(string $name, string $email, int $age, string $password): bool
+    public function persist(Account $account): bool
     {
-        $data = "\"{$name}\",\"{$email}\",\"{$age}\",\"{$password}\"\n";
+        $data = "\"{$account->getName()}\",\"{$account->getEmail()}\",\"{$account->getAge()}\",\"{$account->getPassword()}\"" . PHP_EOL;
 
         if (!file_put_contents(__DIR__ . '/../../../database/accounts.csv', $data, FILE_APPEND)) {
             throw new ErrorException('There is an error on write in text file.');

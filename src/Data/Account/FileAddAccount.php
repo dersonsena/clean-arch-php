@@ -1,8 +1,10 @@
 <?php
 
-namespace App\Data;
+namespace App\Data\Account;
 
-use App\Domain\AddAccount;
+use App\Data\Encrypter;
+use App\Domain\Entities\Account\Account;
+use App\Domain\UseCases\Account\AddAccount;
 
 class FileAddAccount implements AddAccount
 {
@@ -22,10 +24,11 @@ class FileAddAccount implements AddAccount
         $this->repository = $repository;
     }
 
-    public function create(string $name, string $email, int $age, string $password): bool
+    public function create(Account $account): bool
     {
-        $hashedPassword = $this->encrypter->encode($password);
+        $hashedPassword = $this->encrypter->encode($account->getPassword());
+        $account->setPassword($hashedPassword);
 
-        return $this->repository->persist($name, $email, $age, $hashedPassword);
+        return $this->repository->persist($account);
     }
 }
